@@ -1,4 +1,4 @@
-var synth = new Tone.PolySynth().toDestination();        // call a new tone synth and patch it to the sound
+//var synth = new Tone.PolySynth().toDestination();        // call a new tone synth and patch it to the sound
 var info = true;    // this tells us whether to display the info screen or not
 var notePlaying = [0,0,0,0,0,0,0,0,0]; // array to store if a note is playing - not using this at the moment, but might
 var ongoingTouches = []; // to store ongoing touches in for multitouch
@@ -412,41 +412,41 @@ document.addEventListener("click", closeAllSelect);
 function handleMenu(menu, index) { // function to handle the menu selections and change scales and keys
   if(menu === "keymenu"){
     var theType = index -1; // set the variable to the correct scale - the minus 1 is to offset it to allow for the default menu setting
-    var types = ["pizz", "lyric", "short"];
+    var types = ["blue", "yellow", "red"];
     console.log("the type is "+types[theType]); //debugging
     setSampler(types[theType]);
   }
 }
 
-const pizzSamples = new Tone.ToneAudioBuffers({
+const instrSamples = new Tone.ToneAudioBuffers({
   urls: {
-    pizz0: "cello_pizz_0.flac",
-    pizz1: "cello_pizz_1.flac",
-    pizz2: "cello_pizz_2.flac",
-    pizz3: "cello_pizz_3.flac",
-    pizz4: "cello_pizz_4.flac",
-    pizz5: "cello_pizz_5.flac",
-    pizz6: "cello_pizz_6.flac",
-    pizz7: "cello_pizz_7.flac",
-    pizz8: "cello_pizz_8.flac",
-    lyric0: "cello_lyrical_0.flac",
-    lyric1: "cello_lyrical_1.flac",
-    lyric2: "cello_lyrical_2.flac",
-    lyric3: "cello_lyrical_3.flac",
-    lyric4: "cello_lyrical_4.flac",
-    lyric5: "cello_lyrical_5.flac",
-    lyric6: "cello_lyrical_6.flac",
-    lyric7: "cello_lyrical_7.flac",
-    lyric8: "cello_lyrical_8.flac",
-    short0: "cello_short_0.flac",
-    short1: "cello_short_1.flac",
-    short2: "cello_short_2.flac",
-    short3: "cello_short_3.flac",
-    short4: "cello_short_4.flac",
-    short5: "cello_short_5.flac",
-    short6: "cello_short_6.flac",
-    short7: "cello_short_7.flac",
-    short8: "cello_short_8.flac",
+    blue0: "clarinet_blue_0.flac",
+    blue1: "clarinet_blue_1.flac",
+    blue2: "clarinet_blue_2.flac",
+    blue3: "clarinet_blue_3.flac",
+    blue4: "clarinet_blue_4.flac",
+    blue5: "clarinet_blue_5.flac",
+    blue6: "clarinet_blue_6.flac",
+    blue7: "clarinet_blue_7.flac",
+    blue8: "clarinet_blue_8.flac",
+    yellow0: "clarinet_yellow_0.flac",
+    yellow1: "clarinet_yellow_1.flac",
+    yellow2: "clarinet_yellow_2.flac",
+    yellow3: "clarinet_yellow_3.flac",
+    yellow4: "clarinet_yellow_4.flac",
+    yellow5: "clarinet_yellow_5.flac",
+    yellow6: "clarinet_yellow_6.flac",
+    yellow7: "clarinet_yellow_7.flac",
+    yellow8: "clarinet_yellow_8.flac",
+    red0: "clarinet_red_0.flac",
+    red1: "clarinet_red_1.flac",
+    red2: "clarinet_red_2.flac",
+    red3: "clarinet_red_3.flac",
+    red4: "clarinet_red_4.flac",
+    red5: "clarinet_red_5.flac",
+    red6: "clarinet_red_6.flac",
+    red7: "clarinet_red_7.flac",
+    red8: "clarinet_red_8.flac",
   },
   onload: () => {
     hideLoadScreen();
@@ -461,23 +461,24 @@ var sampler;
 
 function setSampler(type) {
   for(let i = 0; i < 9; i++) {
-    sampler.add(notes[i], pizzSamples.get(`${type}${i}`));
+    sampler.add(notes[i], instrSamples.get(`${type}${i}`));
   }
 }
 
 function loadSampler() {
   sampler= new Tone.Sampler();
-  setSampler("pizz");
+  setSampler("blue");
   sampler.connect(reverb);
   sampler.set({
-    release: 8
+    "release": 8,
+    "volume": -12
   });
 }
 
 const reverb = new Tone.Reverb({
   decay: 3,
   predelay: 0,
-  wet: 0.5
+  wet: 0.2
 }).toDestination();
 
 // sampler.connect(reverb);
@@ -487,22 +488,22 @@ const reverb = new Tone.Reverb({
 //   release: 8
 // });
 
-synth.set(  // setup the synth - this is audio stuff really
-  {
-    "volume": 0,
-    "detune": 0,
-    "portamento": 0,
-    "envelope": {
-      "attack": 40,
-      "attackCurve": "linear",
-      "decay": 0.1,
-      "decayCurve": "exponential",
-      "release": 2,
-      "releaseCurve": "exponential",
-      "sustain": 0.3
-    },
-  }
-);
+// synth.set(  // setup the synth - this is audio stuff really
+//   {
+//     "volume": 0,
+//     "detune": 0,
+//     "portamento": 0,
+//     "envelope": {
+//       "attack": 40,
+//       "attackCurve": "linear",
+//       "decay": 0.1,
+//       "decayCurve": "exponential",
+//       "release": 2,
+//       "releaseCurve": "exponential",
+//       "sustain": 0.3
+//     },
+//   }
+// );
 
 function playSynth(i) {
   sampler.triggerAttack(notes[i], Tone.now());
